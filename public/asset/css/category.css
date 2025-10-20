@@ -1,0 +1,103 @@
+    :root {
+      --accent-primary: #6366f1;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --secondary-light: #f8fafc;
+    }
+
+    .modal-content {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      border-bottom: 2px solid var(--border-color);
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      color: var(--text-dark);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .form-label {
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-control, .form-select {
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .btn-primary-neon {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary-neon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      border: 2px solid var(--border-color);
+      background: white;
+      color: var(--text-dark);
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--secondary-light);
+      border-color: var(--text-muted);
+    }
+
+    .btn-edit {
+      background: #eab308;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .btn-delete {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .char-counter {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .form-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }

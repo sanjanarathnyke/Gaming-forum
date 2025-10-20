@@ -1,200 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Categories Admin - GameVerse</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Categories Admin - GameVerse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/category.css') }}">
 </head>
+
 <body>
-  <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-lg">
-      <a class="navbar-brand" href="{{ route('welcome') }}">GameVerse</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="{{ route('welcome') }}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('forum') }}">Forums</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('category') }}">Categories</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <!-- Navbar -->
+    @include('header.header')
 
-  <!-- Page Header -->
-  <section style="background-color: var(--secondary-dark); border-bottom: 2px solid var(--accent-orange); padding: 2rem 0;">
-    <div class="container-lg">
-      <h1 style="color: var(--accent-neon-blue); font-weight: 700; margin-bottom: 0.5rem;">Categories Management</h1>
-      <p style="color: var(--text-muted);">Admin dashboard for managing forum categories</p>
-    </div>
-  </section>
+    <!-- Page Header -->
+    <section class="bg-light" style="border-bottom: 2px solid var(--border-color); padding: 2rem 0;">
+        <div class="container-lg">
+            <h1 class="text-dark fw-bold mb-2">Categories Management</h1>
+            <p class="text-muted">Admin dashboard for managing forum categories</p>
+        </div>
+    </section>
 
-  <!-- Main Content -->
-  <main class="container-lg py-5">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-      <h2 style="color: var(--accent-neon-blue); font-weight: 700; margin: 0;">All Categories</h2>
-      <button class="btn btn-primary-neon">+ Add Category</button>
+    <!-- Main Content -->
+    <main class="container-lg py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-dark fw-bold m-0">All Categories</h2>
+            <button class="btn btn-primary-neon" data-bs-toggle="modal" data-bs-target="#addCategoryModal">+ Add
+                Category</button>
+        </div>
+
+        <!-- Categories Table -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Category Name</th>
+                            <th scope="col" class="text-center">Description</th>
+                            <th scope="col" class="text-center">Posts</th>
+                            <th scope="col" class="text-center">Members</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Call of Duty</div>
+                            </td>
+                            <td class="text-center text-muted">Discuss all Call of Duty games</td>
+                            <td class="text-center fw-bold">156</td>
+                            <td class="text-center fw-bold">89</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(1, 'Call of Duty', 'Discuss all Call of Duty games')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(1)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Valorant</div>
+                            </td>
+                            <td class="text-center text-muted">Valorant competitive gaming</td>
+                            <td class="text-center fw-bold">89</td>
+                            <td class="text-center fw-bold">67</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(2, 'Valorant', 'Valorant competitive gaming')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(2)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Counter-Strike 2</div>
+                            </td>
+                            <td class="text-center text-muted">CS2 strategies and gameplay</td>
+                            <td class="text-center fw-bold">234</td>
+                            <td class="text-center fw-bold">145</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(3, 'Counter-Strike 2', 'CS2 strategies and gameplay')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(3)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Fortnite</div>
+                            </td>
+                            <td class="text-center text-muted">Fortnite battle royale</td>
+                            <td class="text-center fw-bold">167</td>
+                            <td class="text-center fw-bold">112</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(4, 'Fortnite', 'Fortnite battle royale')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(4)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Apex Legends</div>
+                            </td>
+                            <td class="text-center text-muted">Apex Legends discussion</td>
+                            <td class="text-center fw-bold">145</td>
+                            <td class="text-center fw-bold">98</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(5, 'Apex Legends', 'Apex Legends discussion')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(5)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-bold">Warzone</div>
+                            </td>
+                            <td class="text-center text-muted">Warzone battle royale</td>
+                            <td class="text-center fw-bold">203</td>
+                            <td class="text-center fw-bold">134</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal"
+                                    onclick="editCategory(6, 'Warzone', 'Warzone battle royale')">Edit</button>
+                                <button class="btn btn-sm btn-delete"
+                                    onclick="deleteCategory(6)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title">6</h3>
+                        <p class="card-text text-muted">Total Categories</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title">994</h3>
+                        <p class="card-text text-muted">Total Posts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title">645</h3>
+                        <p class="card-text text-muted">Active Members</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="addCategoryForm">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="categoryName" class="form-label fw-bold">Category Name</label>
+                        <input type="text" id="categoryName" class="form-control" name="category_name" placeholder="Enter category name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryDescription" class="form-label fw-bold">Description</label>
+                        <textarea id="categoryDescription" class="form-control" name="description" rows="3" maxlength="255" placeholder="Enter description" required></textarea>
+                        <small class="text-muted"><span id="addCharCount">0</span>/255 characters</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="submitCategory" class="btn btn-primary" data-url="{{ route('categories.store') }}">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript (AJAX + Dynamic Table Update) -->
+
+
+
+
+
+
+    <!-- Edit Category Modal -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCategoryForm">
+                        <input type="hidden" id="editCategoryId">
+                        <!-- Category Name -->
+                        <div class="mb-4">
+                            <label for="editCategoryName" class="form-label">Category Name <span
+                                    style="color: #dc2626;">*</span></label>
+                            <input type="text" class="form-control" id="editCategoryName"
+                                placeholder="e.g., Call of Duty, Valorant" required>
+                            <div class="form-text">Choose a clear and descriptive name for your category</div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="editCategoryDescription" class="form-label">Description <span
+                                    style="color: #dc2626;">*</span></label>
+                            <textarea class="form-control" id="editCategoryDescription" rows="4"
+                                placeholder="Brief description of what this category is about..." required></textarea>
+                            <div class="char-counter">
+                                <span id="editCharCount">0</span> / 200 characters
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border-top: 2px solid var(--border-color); padding: 1.5rem;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-neon" id="updateCategory">Update Category</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Categories Table -->
-    <div class="card">
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr style="border-bottom: 2px solid var(--border-color); background-color: rgba(0, 212, 255, 0.05);">
-              <th style="padding: 1rem; text-align: left; color: var(--accent-neon-blue); font-weight: 700;">Category Name</th>
-              <th style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">Description</th>
-              <th style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">Posts</th>
-              <th style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">Members</th>
-              <th style="padding: 1rem; text-align: right; color: var(--accent-neon-blue); font-weight: 700;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Call of Duty</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">Discuss all Call of Duty games</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">156</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">89</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Valorant</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">Valorant competitive gaming</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">89</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">67</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Counter-Strike 2</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">CS2 strategies and gameplay</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">234</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">145</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Fortnite</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">Fortnite battle royale</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">167</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">112</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Apex Legends</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">Apex Legends discussion</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">145</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">98</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(0, 212, 255, 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
-              <td style="padding: 1rem;">
-                <div style="color: var(--text-light); font-weight: 600;">Warzone</div>
-              </td>
-              <td style="padding: 1rem; text-align: center; color: var(--text-muted);">Warzone battle royale</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">203</td>
-              <td style="padding: 1rem; text-align: center; color: var(--accent-neon-blue); font-weight: 700;">134</td>
-              <td style="padding: 1rem; text-align: right;">
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem;">Edit</button>
-                <button class="btn btn-sm btn-secondary-neon" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <!-- Footer -->
+    @include('footer.footer')
 
-    <!-- Stats Section -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
-      <div class="card">
-        <div class="card-body" style="text-align: center;">
-          <div style="font-size: 2.5rem; color: var(--accent-neon-blue); font-weight: 700; margin-bottom: 0.5rem;">6</div>
-          <div style="color: var(--text-muted);">Total Categories</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body" style="text-align: center;">
-          <div style="font-size: 2.5rem; color: var(--accent-neon-purple); font-weight: 700; margin-bottom: 0.5rem;">994</div>
-          <div style="color: var(--text-muted);">Total Posts</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body" style="text-align: center;">
-          <div style="font-size: 2.5rem; color: var(--accent-neon-red); font-weight: 700; margin-bottom: 0.5rem;">645</div>
-          <div style="color: var(--text-muted);">Active Members</div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container-lg">
-      <div class="row g-4 mb-4">
-        <div class="col-md-3">
-          <h5>About</h5>
-          <p class="card-text">GameVerse is the ultimate gaming community forum for discussing your favorite games.</p>
-        </div>
-        <div class="col-md-3">
-          <h5>Quick Links</h5>
-          <div class="footer-section">
-            <a href="index.html">Home</a>
-            <a href="forums.html">Forums</a>
-            <a href="categories.html">Categories</a>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <h5>Support</h5>
-          <div class="footer-section">
-            <a href="#">Contact Us</a>
-            <a href="#">Report Bug</a>
-            <a href="#">Feedback</a>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <h5>Legal</h5>
-          <div class="footer-section">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Cookie Policy</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 GameVerse Forum. All rights reserved. | Powered by Gaming Community</p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('asset/js/category_toast.js') }}"></script>
 </body>
+
 </html>
