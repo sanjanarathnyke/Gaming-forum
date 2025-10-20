@@ -72,6 +72,11 @@
                                         ['bg' => '#ff1493', 'text' => 'white'], // Hot Pink (Neon/Cyberpunk)
                                     ];
 
+
+
+
+
+                                    
                                     // Generate consistent color index based on category ID
                                     $colorIndex = $thread->category->id % count($colors);
                                     $categoryColor = $colors[$colorIndex];
