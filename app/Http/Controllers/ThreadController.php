@@ -10,11 +10,14 @@ class ThreadController extends Controller
 {
     public function index()
     {
-        $forum = Thread::with('category')->get();
-        $categories = Category::all();
+        $forum = Thread::latest()->with('category')->get();
+        $categories = Category::withCount('threads')->get();
+        $total_threads = Thread::count();
+        $total_members = 645;
 
-        return view('forum', compact('forum', 'categories'));
+        return view('forum', compact('forum', 'categories', 'total_threads', 'total_members'));
     }
+
 
     public function store(Request $request)
     {

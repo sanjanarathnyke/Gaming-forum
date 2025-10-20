@@ -9,38 +9,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Function to show toast notification
-    function showToast(message, type = 'success') {
+    function showToast(message, type = "success") {
         // Remove existing toasts
-        const existingToast = document.querySelector('.toast-container');
+        const existingToast = document.querySelector(".toast-container");
         if (existingToast) {
             existingToast.remove();
         }
 
         // Create toast container
-        const toastContainer = document.createElement('div');
-        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-        toastContainer.style.zIndex = '9999';
+        const toastContainer = document.createElement("div");
+        toastContainer.className =
+            "toast-container position-fixed top-0 end-0 p-3";
+        toastContainer.style.zIndex = "9999";
 
         // Determine icon and colors based on type
         const icons = {
-            success: '✓',
-            error: '✕',
-            warning: '⚠',
-            info: 'ℹ'
+            success: "✓",
+            error: "✕",
+            warning: "⚠",
+            info: "ℹ",
         };
-        
+
         const bgColors = {
-            success: '#10b981',
-            error: '#ef4444',
-            warning: '#f59e0b',
-            info: '#3b82f6'
+            success: "#10b981",
+            error: "#ef4444",
+            warning: "#f59e0b",
+            info: "#3b82f6",
         };
 
         const titles = {
-            success: 'Success',
-            error: 'Error',
-            warning: 'Warning',
-            info: 'Info'
+            success: "Success",
+            error: "Error",
+            warning: "Warning",
+            info: "Info",
         };
 
         // Create toast HTML
@@ -60,15 +61,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(toastContainer);
 
         // Initialize Bootstrap toast
-        const toastElement = toastContainer.querySelector('.toast');
+        const toastElement = toastContainer.querySelector(".toast");
         const bsToast = new bootstrap.Toast(toastElement, {
             autohide: true,
-            delay: 3000
+            delay: 3000,
         });
         bsToast.show();
 
         // Remove toast container after it's hidden
-        toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.addEventListener("hidden.bs.toast", () => {
             toastContainer.remove();
         });
     }
@@ -82,7 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Basic validation
         const title = document.getElementById("postTitle").value.trim();
         const category = document.getElementById("postCategory").value;
-        const description = document.getElementById("postDescription").value.trim();
+        const description = document
+            .getElementById("postDescription")
+            .value.trim();
 
         if (!title || !category || !description) {
             showToast("Please fill out all required fields.", "warning");
@@ -96,50 +99,60 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(url, {
             method: "POST",
             headers: {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
             },
             body: formData,
         })
-        .then(async response => {
-            let data;
-            try {
-                data = await response.json();
-            } catch (err) {
-                console.error("Invalid JSON:", err);
-                showToast("Unexpected server response.", "error");
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Create Post";
-                return;
-            }
-
-            if (response.ok && data.success) {
-                showToast(data.message || "Post created successfully!", "success");
-                
-                // Reset form
-                form.reset();
-                charCount.textContent = "0";
-
-                // Close modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById("createPostModal"));
-                if (modal) {
-                    modal.hide();
+            .then(async (response) => {
+                let data;
+                try {
+                    data = await response.json();
+                } catch (err) {
+                    console.error("Invalid JSON:", err);
+                    showToast("Unexpected server response.", "error");
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Create Post";
+                    return;
                 }
 
-                // Reload page after showing toast
-                setTimeout(() => {
-                    location.reload();
-                }, 1500);
-            } else {
-                showToast(data.message || "Failed to create post.", "error");
-            }
-        })
-        .catch(err => {
-            console.error("Fetch error:", err);
-            showToast("Something went wrong. Please try again.", "error");
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Create Post";
-        });
+                if (response.ok && data.success) {
+                    showToast(
+                        data.message || "Post created successfully!",
+                        "success"
+                    );
+
+                    // Reset form
+                    form.reset();
+                    charCount.textContent = "0";
+
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(
+                        document.getElementById("createPostModal")
+                    );
+                    if (modal) {
+                        modal.hide();
+                    }
+
+                    // Reload page after showing toast
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    showToast(
+                        data.message || "Failed to create post.",
+                        "error"
+                    );
+                }
+            })
+            .catch((err) => {
+                console.error("Fetch error:", err);
+                showToast("Something went wrong. Please try again.", "error");
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Create Post";
+            });
     });
 });
