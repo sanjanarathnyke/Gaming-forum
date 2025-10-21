@@ -70,20 +70,14 @@
                                         ['bg' => '#b22222', 'text' => 'white'], // Firebrick Red (Fire/Explosions)
                                         ['bg' => '#4169e1', 'text' => 'white'], // Royal Blue (Sonic/Speed)
                                         ['bg' => '#ff1493', 'text' => 'white'], // Hot Pink (Neon/Cyberpunk)
-                                    ];
-
-
-
-
-
-                                    
+                                    ];                                    
                                     // Generate consistent color index based on category ID
                                     $colorIndex = $thread->category->id % count($colors);
                                     $categoryColor = $colors[$colorIndex];
                                 @endphp
                                 <tr>
                                     <td>
-                                        <a href="{{ route('posts') }}" class="text-decoration-none fw-bold">{{ $thread->title }}</a>
+                                        <a href="{{ route('threads.show', $thread->id) }}" class="text-decoration-none fw-bold">{{ $thread->title }}</a>
                                         <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">
                                             By <strong>{{ $thread->username ?? 'DemoUser' }}</strong> in
                                             <span

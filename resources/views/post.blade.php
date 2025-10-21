@@ -21,105 +21,49 @@
                 <!-- Post Header -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h1 class="card-title fs-2 mb-3">BO6 keeps crashing while ranked</h1>
+                        <h1 class="card-title fs-2 mb-3">{{ $forum->title }}</h1>
                         <div class="d-flex gap-4 flex-wrap text-muted small">
-                            <div>
-                                <strong>By:</strong> codcodcod9348
-                            </div>
-                            <div>
-                                <strong>Posted:</strong> Mar 31, 2025 at 2:45 PM
-                            </div>
-                            <div>
-                                <span class="badge badge-category red">Call of Duty: Black Ops 6</span>
-                            </div>
+                            <div><strong>By:</strong> {{ $forum->username ?? 'DemoUser' }}</div>
+                            <div><strong>Posted:</strong> {{ $forum->created_at->format('M d, Y h:i A') }}</div>
+                            <div><span class="badge badge-category">{{ $forum->category->category_name }}</span></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Post Image -->
-                <img src="/placeholder.svg?height=400&width=800" alt="Post" class="img-fluid rounded mb-4 border">
+                @if ($forum->image)
+                    <img src="{{ asset('storage/' . $forum->image) }}" alt="{{ $forum->title }}"
+                        class="img-fluid rounded mb-4 border">
+                @endif
 
                 <!-- Post Content -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p class="fs-5 lh-lg mb-3">
-                            I've been experiencing constant crashes whenever I try to play ranked matches in Black Ops
-                            6. The game runs fine in campaign and multiplayer, but as soon as I queue for ranked, it
-                            crashes within 5-10 minutes. I've tried:
-                        </p>
-                        <ul class="fs-5 lh-lg mb-3">
-                            <li>Updating my graphics drivers</li>
-                            <li>Verifying game files</li>
-                            <li>Lowering graphics settings</li>
-                            <li>Reinstalling the game</li>
-                        </ul>
-                        <p class="fs-5 lh-lg">
-                            Nothing seems to work. Has anyone else experienced this issue? Any suggestions would be
-                            greatly appreciated!
-                        </p>
+                        <p>{!! nl2br(e($forum->description)) !!}</p>
                     </div>
                 </div>
 
                 <!-- Comments Section -->
-                <h2 class="h4 fw-bold mb-4">Comments (3)</h2>
+                <h2 class="h4 fw-bold mb-4">Comments ({{ $forum->comments->count() }})</h2>
 
-                <!-- Comment 1 -->
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex gap-3 mb-3">
-                            <img src="/placeholder.svg?height=50&width=50" alt="Avatar" class="rounded-circle"
-                                style="width: 50px; height: 50px; object-fit: cover;">
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="text-primary m-0">Jack135790</h4>
-                                    <span class="text-muted small">2 hours ago</span>
+                {{-- @foreach ($forum->comments as $comment)
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex gap-3 mb-3">
+                                <img src="{{ $comment->user->user_image ? asset('storage/' . $comment->user->user_image) : '/placeholder.svg?height=50&width=50' }}" alt="Avatar" class="rounded-circle"
+                                    style="width: 50px; height: 50px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="text-primary m-0">{{ $comment->username }}</h4>
+                                        <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    <p class="text-muted small m-0">{{ $comment->user->name ?? '' }}</p>
                                 </div>
-                                <p class="text-muted small m-0">Verified Member</p>
                             </div>
+                            <p class="m-0">{{ $comment->comment_text }}</p>
                         </div>
-                        <p class="m-0">Have you checked your system RAM? Sometimes ranked matches use more resources.
-                            Also, try disabling any overlays like Discord or Xbox Game Bar.</p>
                     </div>
-                </div>
-
-                <!-- Comment 2 -->
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex gap-3 mb-3">
-                            <img src="/placeholder.svg?height=50&width=50" alt="Avatar" class="rounded-circle"
-                                style="width: 50px; height: 50px; object-fit: cover;">
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="text-primary m-0">ProPlayer99</h4>
-                                    <span class="text-muted small">1 hour ago</span>
-                                </div>
-                                <p class="text-muted small m-0">Moderator</p>
-                            </div>
-                        </div>
-                        <p class="m-0">This is a known issue with some Xbox Series X units. I'd recommend contacting
-                            Activision support directly. They might have a specific fix for your hardware configuration.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Comment 3 -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-3 mb-3">
-                            <img src="/placeholder.svg?height=50&width=50" alt="Avatar" class="rounded-circle"
-                                style="width: 50px; height: 50px; object-fit: cover;">
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="text-primary m-0">ShadowGamer</h4>
-                                    <span class="text-muted small">30 minutes ago</span>
-                                </div>
-                                <p class="text-muted small m-0">Community Member</p>
-                            </div>
-                        </div>
-                        <p class="m-0">Try clearing your console cache. Hold the power button for 10 seconds to fully
-                            power down, then unplug for 30 seconds. This fixed it for me!</p>
-                    </div>
-                </div>
+                @endforeach --}}
 
                 <!-- Add Comment Form -->
                 <div class="card">
@@ -127,15 +71,19 @@
                         <h3 class="card-title m-0">Add a Comment</h3>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form action="{{ route('comments.store') }}?thread_id={{ $forum->id }}" method="POST">
+                            @csrf
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Your Comment</label>
-                                <textarea class="form-control" id="comment" rows="5" placeholder="Share your thoughts or solutions..."></textarea>
+                                <textarea class="form-control" id="comment" name="comment_text" rows="5"
+                                    placeholder="Share your thoughts or solutions..."></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary-neon">Post Comment</button>
                         </form>
                     </div>
                 </div>
+
+
             </div>
 
             <!-- Sidebar -->

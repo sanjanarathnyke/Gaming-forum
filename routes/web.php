@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,9 +35,13 @@ Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->na
 Route::delete('/categories/{id}/delete', [CategoryController::class, 'destroy'])->name('categories.destroy');
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
 
-Route::get('/posts', function () {
-    return view('post');
-})->name('posts');
+// Route::get('/posts', function () {
+//     return view('post');
+// })->name('posts');
+Route::get('/threads/{id}', [PostController::class, 'show'])->name('threads.show');
+
 
 Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index');
 Route::post('/threads/store', [ThreadController::class, 'store'])->name('threads.store');
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
