@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -28,12 +29,15 @@ class CommentController extends Controller
         $threadId = $request->query('thread_id');
         $thread = Thread::findOrFail($threadId);
 
+        // Get authenticated user or use default values
+        $user = Auth::user();
+        
         Comment::create([
             'thread_id' => $thread->id,
-            'category_id' => null,
-            'user_id' => null,
-            'username' => null,
-            'user_image' => null,
+            'category_id' => $thread->category_id,
+            'user_id' => $user?->id,
+            'username' => $user?->name ?? 'Guest User',
+            'user_image' => $user?->user_image,
             'comment_text' => $request->comment_text,
         ]);
 

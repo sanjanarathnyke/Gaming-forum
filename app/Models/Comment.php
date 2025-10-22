@@ -11,6 +11,7 @@ class Comment extends Model
 
     protected $fillable = [
         'thread_id',
+        'category_id',
         'user_id',
         'username',
         'user_image',

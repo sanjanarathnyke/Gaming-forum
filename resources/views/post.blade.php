@@ -46,24 +46,24 @@
                 <!-- Comments Section -->
                 <h2 class="h4 fw-bold mb-4">Comments ({{ $forum->comments->count() }})</h2>
 
-                {{-- @foreach ($forum->comments as $comment)
+                @foreach ($forum->comments as $comment)
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="d-flex gap-3 mb-3">
-                                <img src="{{ $comment->user->user_image ? asset('storage/' . $comment->user->user_image) : '/placeholder.svg?height=50&width=50' }}" alt="Avatar" class="rounded-circle"
+                                <img src="{{ $comment->user_image ? asset('storage/' . $comment->user_image) : '/placeholder.svg?height=50&width=50' }}" alt="Avatar" class="rounded-circle"
                                     style="width: 50px; height: 50px; object-fit: cover;">
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h4 class="text-primary m-0">{{ $comment->username }}</h4>
+                                        <h4 class="text-primary m-0">{{ $comment->username ?? 'Anonymous' }}</h4>
                                         <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
                                     </div>
-                                    <p class="text-muted small m-0">{{ $comment->user->name ?? '' }}</p>
+                                    <p class="text-muted small m-0">{{ $comment->user->name ?? 'Guest User' }}</p>
                                 </div>
                             </div>
                             <p class="m-0">{{ $comment->comment_text }}</p>
                         </div>
                     </div>
-                @endforeach --}}
+                @endforeach
 
                 <!-- Add Comment Form -->
                 <div class="card">
