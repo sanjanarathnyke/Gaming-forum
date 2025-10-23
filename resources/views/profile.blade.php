@@ -15,32 +15,43 @@
 
     <!-- Main Content -->
     <main class="container-lg py-5">
+        <!-- Success/Error Messages -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!-- Profile Header -->
         <div class="card mb-4">
             <div class="card-body p-4">
                 <div class="d-flex flex-wrap gap-4 align-items-start">
-                    <img src="/placeholder.svg?height=150&width=150" alt="Profile" class="rounded-circle"
+                    <img src="{{ $user->user_image ? asset('storage/' . $user->user_image) : '/placeholder.svg?height=150&width=150' }}" 
+                        alt="{{ $user->name }}" class="rounded-circle"
                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid var(--accent-primary);">
                     <div class="flex-grow-1">
-                        <h1 class="text-primary fw-bold mb-1">ShadowGamer</h1>
-                        <p class="text-muted mb-3">Verified Member • Joined 2 years ago</p>
-                        <p class="mb-3">Passionate gamer and competitive player. Love discussing strategies and
-                            sharing gaming tips with the community.</p>
+                        <h1 class="text-primary fw-bold mb-1">{{ $user->name }}</h1>
+                        <p class="text-muted mb-3">Member • Joined {{ $user->created_at->format('M d, Y') }}</p>
+                        <p class="mb-3">{{ $user->email }}</p>
                         <div class="d-flex gap-4 flex-wrap mb-3">
                             <div>
                                 <div class="text-muted small">Posts</div>
-                                <div class="fw-bold fs-5">247</div>
+                                <div class="fw-bold fs-5">{{ $threads->count() }}</div>
                             </div>
                             <div>
                                 <div class="text-muted small">Comments</div>
-                                <div class="fw-bold fs-5">892</div>
-                            </div>
-                            <div>
-                                <div class="text-muted small">Reputation</div>
-                                <div class="fw-bold fs-5">4.8/5</div>
+                                <div class="fw-bold fs-5">{{ $comments->count() }}</div>
                             </div>
                         </div>
-                        <button class="btn btn-secondary-neon">Edit Profile</button>
+                        <button class="btn btn-secondary-neon" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
                     </div>
                 </div>
             </div>
@@ -50,157 +61,162 @@
         <div class="row g-4">
             <div class="col-lg-8">
                 <!-- Tab Navigation -->
-                <ul class="nav nav-tabs mb-4">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">My Posts</a>
+                <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" 
+                            type="button" role="tab" aria-controls="posts" aria-selected="true">
+                            My Posts ({{ $threads->count() }})
+                        </button>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">My Comments</a>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" 
+                            type="button" role="tab" aria-controls="comments" aria-selected="false">
+                            My Comments ({{ $comments->count() }})
+                        </button>
                     </li>
                 </ul>
 
-                <!-- My Posts -->
-                <h2 class="h4 fw-bold mb-3">My Posts (12)</h2>
-
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Best Loadouts for Competitive Play</h3>
-                        <div class="post-card-meta">
-                            <span>Posted 3 days ago</span>
-                            <span class="badge badge-category blue">Call of Duty</span>
-                        </div>
-                        <p class="card-text mt-2">Here are my recommended loadouts for competitive ranked matches...</p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">18</span>
+                <div class="tab-content" id="profileTabsContent">
+                    <!-- My Posts Tab -->
+                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                        @forelse ($threads as $thread)
+                            <div class="post-card mb-3">
+                                @if ($thread->image)
+                                    <img src="{{ asset('storage/' . $thread->image) }}" alt="{{ $thread->title }}" class="post-card-image">
+                                @else
+                                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
+                                @endif
+                                <div class="post-card-content">
+                                    <h3 class="post-card-title">
+                                        <a href="{{ route('threads.show', $thread->id) }}" class="text-decoration-none">
+                                            {{ $thread->title }}
+                                        </a>
+                                    </h3>
+                                    <div class="post-card-meta">
+                                        <span>Posted {{ $thread->created_at->diffForHumans() }}</span>
+                                        <span class="badge badge-category">{{ $thread->category->category_name }}</span>
+                                    </div>
+                                    <p class="card-text mt-2">{{ Str::limit($thread->description, 150) }}</p>
+                                    <div class="post-card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-label">Replies</span>
+                                            <span class="stat-value">{{ $thread->comments->count() }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="{{ route('threads.show', $thread->id) }}" class="btn btn-sm btn-secondary-neon">View</a>
+                                        <form action="{{ route('profile.thread.delete', $thread->id) }}" method="POST" class="d-inline"
+                                            onsubmit="return confirm('Are you sure you want to delete this thread?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">342</span>
+                        @empty
+                            <div class="alert alert-info">
+                                You haven't created any posts yet.
                             </div>
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn btn-sm btn-secondary-neon">Edit</button>
-                            <button class="btn btn-sm btn-secondary-neon">Delete</button>
-                        </div>
+                        @endforelse
                     </div>
-                </div>
 
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Esports Championship 2025 - Teams to Watch</h3>
-                        <div class="post-card-meta">
-                            <span>Posted 1 week ago</span>
-                            <span class="badge badge-category">Esports</span>
-                        </div>
-                        <p class="card-text mt-2">As we head into the championship season, let's break down the top
-                            teams...</p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">42</span>
+                    <!-- My Comments Tab -->
+                    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                        @forelse ($comments as $comment)
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="mb-1">
+                                                <a href="{{ route('threads.show', $comment->thread_id) }}" class="text-decoration-none">
+                                                    On: {{ $comment->thread->title }}
+                                                </a>
+                                            </h5>
+                                            <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                        </div>
+                                        <form action="{{ route('profile.comment.delete', $comment->id) }}" method="POST" class="d-inline"
+                                            onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                    <p class="mb-0">{{ $comment->comment_text }}</p>
+                                </div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">892</span>
+                        @empty
+                            <div class="alert alert-info">
+                                You haven't made any comments yet.
                             </div>
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn btn-sm btn-secondary-neon">Edit</button>
-                            <button class="btn btn-sm btn-secondary-neon">Delete</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Multiplayer Meta Shift - New Weapon Balance</h3>
-                        <div class="post-card-meta">
-                            <span>Posted 2 weeks ago</span>
-                            <span class="badge badge-category red">Multiplayer</span>
-                        </div>
-                        <p class="card-text mt-2">The latest patch has completely changed the multiplayer landscape...
-                        </p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">28</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">567</span>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn btn-sm btn-secondary-neon">Edit</button>
-                            <button class="btn btn-sm btn-secondary-neon">Delete</button>
-                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
 
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Account Stats</h3>
-                    <div class="d-grid gap-2">
-                        <div>
-                            <div class="text-muted small">Member Since</div>
-                            <div class="fw-bold">January 15, 2023</div>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Last Active</div>
-                            <div class="fw-bold">2 hours ago</div>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Status</div>
-                            <div class="text-primary fw-bold">Online</div>
-                        </div>
-                    </div>
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img1.jpg') }}" alt="Gaming Image 1" class="img-fluid rounded w-100">
+                </div>
+
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img2.jpg') }}" alt="Gaming Image 2" class="img-fluid rounded w-100">
+                </div>
+
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img3.jpg') }}" alt="Gaming Image 3" class="img-fluid rounded w-100">
                 </div>
 
                 <div class="sidebar-section">
-                    <h3 class="sidebar-title">Achievements</h3>
-                    <div class="row row-cols-2 g-2">
-                        <div class="col text-center">
-                            <div class="p-3 bg-light rounded">
-                                <div class="fs-4 mb-1">🏆</div>
-                                <div class="small text-muted">Top Contributor</div>
-                            </div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="p-3 bg-light rounded">
-                                <div class="fs-4 mb-1">⭐</div>
-                                <div class="small text-muted">Verified Member</div>
-                            </div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="p-3 bg-light rounded">
-                                <div class="fs-4 mb-1">🎯</div>
-                                <div class="small text-muted">100 Posts</div>
-                            </div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="p-3 bg-light rounded">
-                                <div class="fs-4 mb-1">🔥</div>
-                                <div class="small text-muted">Streak Master</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Quick Actions</h3>
-                    <button class="btn btn-secondary-neon w-100 mb-2">Settings</button>
-                    <button class="btn btn-secondary-neon w-100">Logout</button>
+                    <img src="{{ asset('storage/stock-images/img4.jpg') }}" alt="Gaming Image 4" class="img-fluid rounded w-100">
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="user_image" class="form-label">Profile Image</label>
+                            @if($user->user_image)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $user->user_image) }}" alt="Current profile image" 
+                                        class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            @endif
+                            <input type="file" class="form-control" id="user_image" name="user_image" accept="image/*">
+                            <small class="text-muted">Leave empty to keep current image</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-neon">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     @include('footer.footer')

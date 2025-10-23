@@ -24,28 +24,62 @@
                             <h1 class="card-title text-center mb-2 fs-2">Join GameVerse</h1>
                             <p class="text-center text-muted mb-4">Create your account to start gaming</p>
 
-                            <form>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username"
+                                    <label for="name" class="form-label">Username</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                        id="name" name="name" value="{{ old('name') }}"
                                         placeholder="Choose your username" required>
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email"
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                        id="email" name="email" value="{{ old('email') }}"
                                         placeholder="your@email.com" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="user_image" class="form-label">Profile Image (Optional)</label>
+                                    <input type="file" class="form-control @error('user_image') is-invalid @enderror" 
+                                        id="user_image" name="user_image" accept="image/*">
+                                    <small class="text-muted">Max file size: 2MB (jpeg, png, jpg, gif)</small>
+                                    @error('user_image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password"
-                                        placeholder="Create a strong password" required>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                        id="password" name="password"
+                                        placeholder="Create a strong password (min 8 characters)" required>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="confirm-password" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirm-password"
+                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="password_confirmation" 
+                                        name="password_confirmation"
                                         placeholder="Confirm your password" required>
                                 </div>
 
@@ -62,7 +96,7 @@
                             </form>
 
                             <div class="text-center text-muted small">
-                                Already have an account? <a href="login.html" class="text-decoration-none fw-bold">Sign
+                                Already have an account? <a href="{{ route('login') }}" class="text-decoration-none fw-bold">Sign
                                     in here</a>
                             </div>
                         </div>

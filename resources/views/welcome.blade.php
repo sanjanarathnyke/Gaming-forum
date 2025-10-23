@@ -13,14 +13,26 @@
     <!-- Navbar -->
     @include('header.header')
 
+    <!-- Success/Error Messages -->
+    @if (session('success'))
+        <div class="container-lg mt-3">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" style="background-image: url('{{ asset('images/background-images/banner_image.jpg') }}'); background-size: cover; background-position: center center;">
         <div class="hero-content">
-            <h1>Join the Battle of Opinions</h1>
+            <h1 style="color: var(--primary-light);">Join the Battle of Opinions</h1>
             <p>Connect with gamers worldwide and discuss your favorite titles</p>
             <a href="{{ route('register') }}" class="btn btn-primary-neon">Join the Community</a>
         </div>
     </section>
+    
+    
 
     <!-- Main Content -->
     <main class="container-lg py-5">

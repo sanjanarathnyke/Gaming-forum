@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
 {
@@ -34,6 +35,8 @@ class ThreadController extends Controller
         }
 
         Thread::create([
+            'user_id' => Auth::id(),
+            'username' => Auth::user()->name,
             'image' => $imagePath,
             'title' => $validated['title'],
             'category_id' => $validated['category_id'],

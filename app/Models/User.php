@@ -46,4 +46,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the threads created by the user.
+     */
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    /**
+     * Get the comments created by the user.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

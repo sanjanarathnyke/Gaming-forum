@@ -24,21 +24,46 @@
                             <h1 class="card-title text-center mb-2 fs-2">Welcome Back</h1>
                             <p class="text-center text-muted mb-4">Sign in to your GameVerse account</p>
 
-                            <form>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('login') }}" method="POST">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email"
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                        id="email" name="email" value="{{ old('email') }}"
                                         placeholder="your@email.com" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password"
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                        id="password" name="password"
                                         placeholder="Enter your password" required>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
                                     <label class="form-check-label" for="remember">
                                         Remember me
                                     </label>
@@ -48,7 +73,7 @@
                             </form>
 
                             <div class="text-center text-muted small">
-                                Don't have an account? <a href="register.html"
+                                Don't have an account? <a href="{{ route('register') }}"
                                     class="text-decoration-none fw-bold">Register here</a>
                             </div>
 

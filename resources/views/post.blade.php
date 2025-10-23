@@ -88,39 +88,20 @@
 
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Post Info</h3>
-                    <div class="d-grid gap-2">
-                        <div>
-                            <div class="text-muted small">Views</div>
-                            <div class="fw-bold fs-5">780</div>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Replies</div>
-                            <div class="fw-bold fs-5">3</div>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Category</div>
-                            <div class="mt-1"><span class="badge badge-category red">Call of Duty: Black Ops 6</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img1.jpg') }}" alt="Gaming Image 1" class="img-fluid rounded w-100">
+                </div>
+
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img2.jpg') }}" alt="Gaming Image 2" class="img-fluid rounded w-100">
+                </div>
+
+                <div class="sidebar-section mb-4">
+                    <img src="{{ asset('storage/stock-images/img3.jpg') }}" alt="Gaming Image 3" class="img-fluid rounded w-100">
                 </div>
 
                 <div class="sidebar-section">
-                    <h3 class="sidebar-title">Related Posts</h3>
-                    <ul class="sidebar-list">
-                        <li><a href="post.html">Xbox series X crashing playing ranked??</a></li>
-                        <li><a href="post.html">BO6 crashing series x</a></li>
-                        <li><a href="post.html">Download and pre load BF6</a></li>
-                        <li><a href="post.html">Multiplayer Meta Shift - New Weapon Balance</a></li>
-                    </ul>
-                </div>
-
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Quick Actions</h3>
-                    <button class="btn btn-secondary-neon w-100 mb-2">Report Post</button>
-                    <button class="btn btn-secondary-neon w-100">Share Post</button>
+                    <img src="{{ asset('storage/stock-images/img4.jpg') }}" alt="Gaming Image 4" class="img-fluid rounded w-100">
                 </div>
             </div>
         </div>

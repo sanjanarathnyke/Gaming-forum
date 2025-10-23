@@ -9,7 +9,7 @@ class Thread extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image', 'title', 'category_id', 'description'];
+    protected $fillable = ['user_id', 'username', 'image', 'title', 'category_id', 'description'];
 
     public function category()
     {
@@ -19,5 +19,10 @@ class Thread extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
