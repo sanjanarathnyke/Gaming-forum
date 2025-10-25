@@ -24,127 +24,112 @@
     @endif
 
     <!-- Hero Section -->
-    <section class="hero" style="background-image: url('{{ asset('images/background-images/banner_image.jpg') }}'); background-size: cover; background-position: center center;">
+    <section class="hero"
+        style="background-image: url('{{ asset('images/background-images/banner_image.jpg') }}'); background-size: cover; background-position: center center;">
         <div class="hero-content">
             <h1 style="color: var(--primary-light);">Join the Battle of Opinions</h1>
             <p>Connect with gamers worldwide and discuss your favorite titles</p>
             <a href="{{ route('register') }}" class="btn btn-primary-neon">Join the Community</a>
         </div>
     </section>
-    
-    
+
+
 
     <!-- Main Content -->
     <main class="container-lg py-5">
         <div class="row g-4">
             <!-- Latest Posts -->
+            <!-- Image Carousel - Replacing Latest Posts Section -->
             <div class="col-lg-8">
-                <h2 class="mb-4" style="color: var(--accent-neon-blue); font-weight: 700;">Latest Posts</h2>
+                <h2 class="mb-4" style="color: var(--accent-neon-blue); font-weight: 700;">Game Enthusiast’s Paradise
+                </h2>
 
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Black Ops 6 Campaign Review - A Masterpiece</h3>
-                        <div class="post-card-meta">
-                            <span>By <strong>ShadowGamer</strong></span>
-                            <span>2 hours ago</span>
-                        </div>
-                        <p class="card-text mt-2">The latest Black Ops campaign delivers an incredible story with
-                            stunning graphics and engaging gameplay mechanics...</p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">24</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">411</span>
+                <!-- Carousel -->
+                <div id="gameImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <img src="{{ asset('images/swap-images/swap1.jpg') }}" class="d-block w-100"
+                                alt="Game Image 1">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p>"Victory is earned, not given. Every game is a battle, every match a chance to grow."
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Multiplayer Meta Shift - New Weapon Balance</h3>
-                        <div class="post-card-meta">
-                            <span>By <strong>ProPlayer99</strong></span>
-                            <span>5 hours ago</span>
-                        </div>
-                        <p class="card-text mt-2">The latest patch has completely changed the multiplayer landscape.
-                            Here's what you need to know about the new meta...</p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">18</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">356</span>
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/swap-images/swap2.jpg') }}" class="d-block w-100"
+                                alt="Game Image 2">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p>"The real competition is with yourself. Be better than you were yesterday."</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="post-card">
-                    <img src="/placeholder.svg?height=80&width=80" alt="Post" class="post-card-image">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">Esports Championship 2025 - Teams to Watch</h3>
-                        <div class="post-card-meta">
-                            <span>By <strong>EsportsDaily</strong></span>
-                            <span>1 day ago</span>
-                        </div>
-                        <p class="card-text mt-2">As we head into the championship season, let's break down the top
-                            teams and their chances of winning it all...</p>
-                        <div class="post-card-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Replies</span>
-                                <span class="stat-value">42</span>
+                        <!-- Slide 3 -->
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/swap-images/swap3.jpg') }}" class="d-block w-100"
+                                alt="Game Image 3">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p>"Gaming isn’t just about winning; it’s about the thrill of the challenge."</p>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Views</span>
-                                <span class="stat-value">892</span>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/swap-images/swap4.jpg') }}" class="d-block w-100"
+                                alt="Game Image 4">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p>"The best players don’t play for trophies, they play for the love of the game."</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <div class="sidebar-section">
                     <h3 class="sidebar-title">Top Categories</h3>
                     <ul class="sidebar-list">
-                        <li><a href="{{ route('forum') }}">Call of Duty <span
-                                    class="badge badge-category blue">156</span></a></li>
-                        <li><a href="{{ route('forum') }}">Valorant <span class="badge badge-category">89</span></a>
-                        </li>
-                        <li><a href="{{ route('forum') }}">Counter-Strike 2 <span
-                                    class="badge badge-category red">234</span></a></li>
-                        <li><a href="{{ route('forum') }}">Fortnite <span
-                                    class="badge badge-category blue">167</span></a></li>
-                        <li><a href="{{ route('forum') }}">Apex Legends <span
-                                    class="badge badge-category">145</span></a></li>
+                        @forelse($topCategories as $index => $category)
+                            <li>
+                                <a href="{{ route('forum') }}">
+                                    {{ $category->category_name }} 
+                                    <span class="badge badge-category {{ $index % 3 == 0 ? 'blue' : ($index % 3 == 1 ? '' : 'red') }}">
+                                        {{ $category->threads_count }}
+                                    </span>
+                                </a>
+                            </li>
+                        @empty
+                            <li class="text-muted">No categories available yet</li>
+                        @endforelse
                     </ul>
                 </div>
 
                 <div class="sidebar-section">
                     <h3 class="sidebar-title">Members Online</h3>
-                    <p class="card-text">Total: <strong style="color: var(--accent-neon-blue);">199</strong> (members:
-                        1, guests: 198)</p>
-                    <p class="card-text mt-3" style="font-size: 0.9rem;">
-                        <strong>superomantis</strong> is currently online
-                    </p>
+                    <p class="card-text">Total Registered Users: <strong style="color: var(--accent-neon-blue);">{{ $totalUsers }}</strong></p>
+                    @auth
+                        <p class="card-text mt-3" style="font-size: 0.9rem;">
+                            <strong>{{ Auth::user()->name }}</strong> is currently online
+                        </p>
+                    @else
+                        <p class="card-text mt-3" style="font-size: 0.9rem;">
+                            <a href="{{ route('login') }}">Login</a> to see who's online
+                        </p>
+                    @endauth
                 </div>
 
                 <div class="sidebar-section">
                     <h3 class="sidebar-title">Quick Links</h3>
                     <ul class="sidebar-list">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="{{ route('forum') }}">All Forums</a></li>
-                        <li><a href="profile.html">My Profile</a></li>
-                        <li><a href="login.html">Login</a></li>
+                        <li><a href="{{ route('welcome') }}">Home</a></li>
+                        <li><a href="{{ route('threads.index') }}">All Forums</a></li>
+                        @auth
+                            <li><a href="{{ route('profile') }}">My Profile</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @endauth
                     </ul>
                 </div>
             </div>

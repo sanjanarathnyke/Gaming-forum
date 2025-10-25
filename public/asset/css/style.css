@@ -1,3 +1,6 @@
+/* Import Gaming Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;600;700;800;900&display=swap');
+
 /* Gaming Forum - Light Theme */
 :root {
   --primary-light: #FFFFFF;
@@ -7,6 +10,9 @@
   --text-dark: #212529;
   --text-muted: #6C757D;
   --border-color: #DEE2E6;
+  --neon-blue: #00D4FF;
+  --neon-pink: #FF006E;
+  --neon-purple: #8B00FF;
 }
 
 * {
@@ -30,11 +36,30 @@ body {
 }
 
 .navbar-brand {
-  font-size: 1.8rem;
+  font-family: 'Orbitron', 'Rajdhani', 'Exo 2', sans-serif;
+  font-size: 2rem;
   font-weight: 900;
-  color: var(--accent-primary);
+  color: #dc143c;
   text-transform: uppercase;
   letter-spacing: 2px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+  color: #ff0000;
+  filter: drop-shadow(0 0 10px rgba(220, 20, 60, 0.6));
+}
+
+/* Gaming brand glow effect */
+@keyframes neon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.7));
+  }
 }
 
 .nav-link {
@@ -374,8 +399,8 @@ footer {
 @media (max-width: 768px) {
   /* Navbar */
   .navbar-brand {
-    font-size: 1.4rem;
-    letter-spacing: 1px;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
   }
 
   .nav-link {
@@ -523,7 +548,8 @@ footer {
   }
 
   .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
   }
 
   .navbar-toggler {
@@ -737,7 +763,8 @@ footer {
   }
 
   .navbar-brand {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
   }
 
   .post-card-image {

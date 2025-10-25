@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Thread;
 use App\Models\Comment;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -89,6 +90,36 @@ class ProfileController extends Controller
         return redirect()->route('profile')->with('success', 'Comment deleted successfully!');
     }
 
+    public function editComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+        
+        // Check if the user owns this comment
+        if ($comment->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        return response()->json($comment);
+    }
+
+    public function updateComment(Request $request, $id)
+    {
+        $comment = Comment::findOrFail($id);
+        
+        // Check if the user owns this comment
+        if ($comment->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'comment_text' => 'required|string|max:2000'
+        ]);
+
+        $comment->update($validated);
+
+        return redirect()->route('profile')->with('success', 'Comment updated successfully!');
+    }
+
     public function editThread($id)
     {
         $thread = Thread::findOrFail($id);
@@ -98,7 +129,8 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
 
-        return view('edit-thread', compact('thread'));
+        $categories = Category::all();
+        return view('edit-thread', compact('thread', 'categories'));
     }
 
     public function updateThread(Request $request, $id)

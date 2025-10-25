@@ -105,12 +105,36 @@
                                     </div>
                                     <div class="mt-3">
                                         <a href="{{ route('threads.show', $thread->id) }}" class="btn btn-sm btn-secondary-neon">View</a>
-                                        <form action="{{ route('profile.thread.delete', $thread->id) }}" method="POST" class="d-inline"
-                                            onsubmit="return confirm('Are you sure you want to delete this thread?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
+                                        <a href="{{ route('threads.edit', $thread->id) }}" class="btn btn-sm btn-primary-neon">Edit</a>
+                                        <button type="button" class="btn btn-sm btn-danger" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteThreadModal{{ $thread->id }}">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete Thread Modal -->
+                            <div class="modal fade" id="deleteThreadModal{{ $thread->id }}" tabindex="-1" aria-labelledby="deleteThreadModalLabel{{ $thread->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteThreadModalLabel{{ $thread->id }}">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this thread?</p>
+                                            <p class="text-muted mb-0"><strong>{{ $thread->title }}</strong></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="{{ route('profile.thread.delete', $thread->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete Thread</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,14 +159,70 @@
                                             </h5>
                                             <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
                                         </div>
-                                        <form action="{{ route('profile.comment.delete', $comment->id) }}" method="POST" class="d-inline"
-                                            onsubmit="return confirm('Are you sure you want to delete this comment?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
+                                        <div>
+                                            <button type="button" class="btn btn-sm btn-primary-neon" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#editCommentModal{{ $comment->id }}">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteCommentModal{{ $comment->id }}">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
                                     <p class="mb-0">{{ $comment->comment_text }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Edit Comment Modal -->
+                            <div class="modal fade" id="editCommentModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editCommentModalLabel{{ $comment->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editCommentModalLabel{{ $comment->id }}">Edit Comment</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('profile.comment.update', $comment->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="comment_text{{ $comment->id }}" class="form-label">Comment</label>
+                                                    <textarea class="form-control" id="comment_text{{ $comment->id }}" name="comment_text" rows="4" required>{{ $comment->comment_text }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary-neon">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete Comment Modal -->
+                            <div class="modal fade" id="deleteCommentModal{{ $comment->id }}" tabindex="-1" aria-labelledby="deleteCommentModalLabel{{ $comment->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteCommentModalLabel{{ $comment->id }}">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this comment?</p>
+                                            <p class="text-muted mb-0"><em>"{{ Str::limit($comment->comment_text, 100) }}"</em></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="{{ route('profile.comment.delete', $comment->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete Comment</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @empty
@@ -222,6 +302,18 @@
     @include('footer.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-dismiss alerts after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            });
+        });
+    </script>
 </body>
 
 </html>

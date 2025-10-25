@@ -6,12 +6,11 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes (No Authentication Required)
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/forum', function () {
     return view('forum');
@@ -44,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/thread/{id}', [ProfileController::class, 'deleteThread'])->name('profile.thread.delete');
     
     // Comment Management (from Profile)
+    Route::get('/profile/comment/{id}/edit', [ProfileController::class, 'editComment'])->name('profile.comment.edit');
+    Route::put('/profile/comment/{id}/update', [ProfileController::class, 'updateComment'])->name('profile.comment.update');
     Route::delete('/profile/comment/{id}', [ProfileController::class, 'deleteComment'])->name('profile.comment.delete');
     
     // Categories Management
