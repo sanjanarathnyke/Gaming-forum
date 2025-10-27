@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile - GameVerse Forum</title>
+    <link rel="icon" href="data:,">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
 </head>
@@ -236,20 +237,20 @@
 
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <div class="sidebar-section mb-4">
-                    <img src="{{ asset('storage/stock-images/img1.jpg') }}" alt="Gaming Image 1" class="img-fluid rounded w-100">
+                <div class="sidebar-section" style="padding: 0; margin-bottom: 2rem; background: none; border: none;">
+                    <img src="{{ asset('storage/stock-images/img1.jpg') }}" alt="Gaming Image 1" class="img-fluid rounded w-100" style="border: 1px solid var(--border-color);">
                 </div>
 
-                <div class="sidebar-section mb-4">
-                    <img src="{{ asset('storage/stock-images/img2.jpg') }}" alt="Gaming Image 2" class="img-fluid rounded w-100">
+                <div class="sidebar-section" style="padding: 0; margin-bottom: 2rem; background: none; border: none;">
+                    <img src="{{ asset('storage/stock-images/img2.jpg') }}" alt="Gaming Image 2" class="img-fluid rounded w-100" style="border: 1px solid var(--border-color);">
                 </div>
 
-                <div class="sidebar-section mb-4">
-                    <img src="{{ asset('storage/stock-images/img3.jpg') }}" alt="Gaming Image 3" class="img-fluid rounded w-100">
+                <div class="sidebar-section" style="padding: 0; margin-bottom: 2rem; background: none; border: none;">
+                    <img src="{{ asset('storage/stock-images/img3.jpg') }}" alt="Gaming Image 3" class="img-fluid rounded w-100" style="border: 1px solid var(--border-color);">
                 </div>
 
-                <div class="sidebar-section">
-                    <img src="{{ asset('storage/stock-images/img4.jpg') }}" alt="Gaming Image 4" class="img-fluid rounded w-100">
+                <div class="sidebar-section" style="padding: 0; margin-bottom: 2rem; background: none; border: none;">
+                    <img src="{{ asset('storage/stock-images/img4.jpg') }}" alt="Gaming Image 4" class="img-fluid rounded w-100" style="border: 1px solid var(--border-color);">
                 </div>
             </div>
         </div>
